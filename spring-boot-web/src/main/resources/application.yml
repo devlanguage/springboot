@@ -1,0 +1,24 @@
+server:
+    port: 8081
+    context-path: /
+web:
+  upload-path: c:/temp/
+multipart:
+  maxRequestSize: 500Mb
+  maxFileSize: 500Mb
+spring:
+  velocity:
+    charset: UTF-8
+    properties:
+      input:
+        encoding: UTF-8
+      output:
+        encoding: UTF-8
+    toolbox-config-location: /templates/toolbox.xml
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+    static-path-pattern: "/**/*.jpg"
+  resources:
+    static-locations: "classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/,classpath:/public/,file:${web.upload-path}"

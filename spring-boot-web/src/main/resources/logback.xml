@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<property name="LOG_FILE" value="apiserver/log/spring.log" />
+	<timestamp key="bySecond" datePattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5level [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="SIZED_BASED_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5level [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+		<file>${LOG_FILE}</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%i.log</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50MB</maxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="TIME_BASED_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5level [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+		<!-- if ending with .gz, zip. log compress will be enabled -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyy-MM-dd'T'HH_mm_ss}.%i.log</fileNamePattern>
+			<MaxHistory>10</MaxHistory>
+			<!-- <totalSizeCap>100MB</totalSizeCap> -->
+    <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"> 
+        <maxFileSize>10MB</maxFileSize> 
+      </timeBasedFileNamingAndTriggeringPolicy> 
+		</rollingPolicy>
+
+	</appender>
+	<root level="INFO">
+		<!-- <appender-ref ref="STDOUT" /> -->
+		<appender-ref ref="SIZED_BASED_ROLLING_FILE" />
+	</root><!-- 
+	 <logger name="jdbc.audit" level="error"  additivity="false" />
+	 -->
+</configuration>  
