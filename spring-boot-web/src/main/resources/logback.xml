@@ -40,8 +40,8 @@
 
 	</appender>
 	<root level="INFO">
-		<!-- <appender-ref ref="STDOUT" /> -->
-		<appender-ref ref="SIZED_BASED_ROLLING_FILE" />
+		<appender-ref ref="STDOUT" />
+<!-- 		<appender-ref ref="SIZED_BASED_ROLLING_FILE" /> -->
 	</root><!-- 
 	 <logger name="jdbc.audit" level="error"  additivity="false" />
 	 -->

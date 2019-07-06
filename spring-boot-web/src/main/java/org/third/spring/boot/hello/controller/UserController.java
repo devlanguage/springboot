@@ -1,166 +1,107 @@
 package org.third.spring.boot.hello.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.third.spring.boot.hello.domain.JsonResult;
+import org.springframework.web.servlet.ModelAndView;
 import org.third.spring.boot.hello.domain.User;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
-//swagger通过注解表明该接口会生成文档，包括接口名、请求方法、参数、返回信息的等等。
-//http://127.0.0.1:8080/swagger-ui.html
-//•@Api：修饰整个类，描述Controller的作用
-//•@ApiOperation：描述一个类的一个方法，或者说一个接口
-//•@ApiParam：单个参数描述
-//•@ApiModel：用对象来接收参数
-//•@ApiProperty：用对象接收参数时，描述对象的一个字段
-//•@ApiResponse：HTTP响应其中1个描述
-//•@ApiResponses：HTTP响应整体描述
-//•@ApiIgnore：使用该注解忽略这个API
-//•@ApiError ：发生错误返回的信息
-//•@ApiImplicitParam：一个请求参数
-//•@ApiImplicitParams：多个请求参数
+import org.third.spring.boot.hello.repository.UserRepository;
 
 @RestController
+@RequestMapping("/users")
+
 public class UserController {
-
-	// 创建线程安全的Map
-	static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<Integer, User>());
-
-	/**
-	 * 根据ID查询用户
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@ApiOperation(value = "获取用户详细信息", notes = "根据url的id来获取用户详细信息")
-	@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
-	@RequestMapping(value = "user/{id}", method = RequestMethod.GET)
-	public ResponseEntity<JsonResult> getUserById(@PathVariable(value = "id") Integer id) {
-		JsonResult r = new JsonResult();
-		try {
-			User user = users.get(id);
-			r.setResult(user);
-			r.setStatus("ok");
-		} catch (Exception e) {
-			r.setResult(e.getClass().getName() + ":" + e.getMessage());
-			r.setStatus("error");
-			e.printStackTrace();
-		}
-		return ResponseEntity.ok(r);
-	}
+	@Autowired
+	private UserRepository userRepository;
 
 	/**
-	 * 查询用户列表
+	 * 从 用户存储库 获取用户列表
 	 * 
 	 * @return
 	 */
-	@ApiOperation(value = "获取用户列表", notes = "获取用户列表", produces = "application/json")
-	@RequestMapping(value = "users", method = RequestMethod.GET, consumes = { "application/json" }, produces = {
-			"application/json" })
-	public ResponseEntity<JsonResult> getUserList() {
-		JsonResult r = new JsonResult();
-		try {
-			List<User> userList = new ArrayList<User>(users.values());
-			r.setResult(userList.toArray());
-			r.setStatus("ok");
-		} catch (Exception e) {
-			r.setResult(e.getClass().getName() + ":" + e.getMessage());
-			r.setStatus("error");
-			e.printStackTrace();
-		}
-		return ResponseEntity.ok(r);
+	private List<User> getUserlist() {
+		return userRepository.listUser();
 	}
 
 	/**
-	 * 添加用户
+	 * 查询所用用户
 	 * 
-	 * @param user
 	 * @return
 	 */
-	@ApiOperation(value = "创建用户", notes = "根据User对象创建用户")
-	@ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
-	@RequestMapping(value = "user", method = RequestMethod.POST)
-	public ResponseEntity<JsonResult> add(@RequestBody User user) {
-		JsonResult r = new JsonResult();
-		try {
-			users.put(user.getId(), user);
-			r.setResult(user.getId());
-			r.setStatus("ok");
-		} catch (Exception e) {
-			r.setResult(e.getClass().getName() + ":" + e.getMessage());
-			r.setStatus("error");
-
-			e.printStackTrace();
-		}
-		return ResponseEntity.ok(r);
+	@GetMapping
+	public ModelAndView list(Model model) {
+		model.addAttribute("userList", getUserlist());
+		model.addAttribute("title", "用户管理");
+		return new ModelAndView("users/list", "userModel", model);
 	}
 
 	/**
-	 * 根据id删除用户
+	 * 根据id查询用户
 	 * 
-	 * @param id
 	 * @return
 	 */
-	@ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
-	@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
-	@RequestMapping(value = "user/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<JsonResult> delete(@PathVariable(value = "id") Integer id) {
-		JsonResult r = new JsonResult();
-		try {
-			users.remove(id);
-			r.setResult(id);
-			r.setStatus("ok");
-		} catch (Exception e) {
-			r.setResult(e.getClass().getName() + ":" + e.getMessage());
-			r.setStatus("error");
-
-			e.printStackTrace();
-		}
-		return ResponseEntity.ok(r);
+	@GetMapping("{id}")
+	public ModelAndView view(@PathVariable("id") Long id, Model model) {
+		User user = userRepository.getUserById(id);
+		model.addAttribute("user", user);
+		model.addAttribute("title", "查看用户");
+		return new ModelAndView("users/view", "userModel", model);
 	}
 
 	/**
-	 * 根据id修改用户信息
+	 * 获取 form 表单页面
+	 * 
+	 * @return
+	 */
+	@GetMapping("/form")
+	public ModelAndView createForm(Model model) {
+		model.addAttribute("user", new User());
+		model.addAttribute("title", "创建用户");
+		return new ModelAndView("users/form", "userModel", model);
+	}
+
+	/**
+	 * 新建用户
 	 * 
 	 * @param user
 	 * @return
 	 */
-	@ApiOperation(value = "更新信息", notes = "根据url的id来指定更新用户信息")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", paramType = "path"),
-			@ApiImplicitParam(name = "user", value = "用户实体user", required = true, dataType = "User") })
-	@RequestMapping(value = "user/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<User[]> update(@PathVariable("id") Integer id, @RequestBody User user) {
-		User[] userArray = null;
-		try {
-			User u = users.get(id);
-			u.setUsername(user.getUsername());
-			u.setAge(user.getAge());
-			users.put(id, u);
-
-			userArray = users.values().toArray(new User[] {});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ResponseEntity.ok(userArray);
+	@PostMapping
+	public ModelAndView create(User user) {
+		user = userRepository.saveOrUpateUser(user);
+		return new ModelAndView("redirect:/users");
 	}
 
-	@ApiIgnore // 使用该注解忽略这个API
-	@RequestMapping(value = "/hi", method = RequestMethod.GET)
-	public String jsonTest() {
-		return " hi you!";
+	/**
+	 * 删除用户
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = "delete/{id}")
+	public ModelAndView delete(@PathVariable("id") Long id, Model model) {
+		userRepository.deleteUser(id);
+
+		model.addAttribute("userList", getUserlist());
+		model.addAttribute("title", "删除用户");
+		return new ModelAndView("users/list", "userModel", model);
+	}
+
+	/**
+	 * 修改用户
+	 */
+	@GetMapping(value = "modify/{id}")
+	public ModelAndView modifyForm(@PathVariable("id") Long id, Model model) {
+		User user = userRepository.getUserById(id);
+
+		model.addAttribute("user", user);
+		model.addAttribute("title", "修改用户");
+		return new ModelAndView("users/form", "userModel", model);
 	}
 }

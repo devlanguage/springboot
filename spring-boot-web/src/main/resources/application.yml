@@ -1,6 +1,21 @@
+##keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -keystore keystore.p12 -storepass tomcat -validity 3650 -dname "cn=h0.feitian.com"
 server:
-    port: 8081
-    context-path: /
+  port: 18443
+  context-path: /test1
+  servletPath: /
+  displayName: spring-boot-demo
+  maxHttpHeaderSize: 0
+  maxHttpPostSize: 0
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: tomcat
+    key-store-type: PKCS12
+    keyAlias: tomcat
+    key-password: tomcat
+  tomcat:
+    uri-encoding: utf-8
+    
 web:
   upload-path: c:/temp/
 multipart:
@@ -17,8 +32,20 @@ spring:
     toolbox-config-location: /templates/toolbox.xml
   mvc:
     view:
-      prefix: /
+      prefix: /WEB-INF/jsp/
       suffix: .jsp
-    static-path-pattern: "/**/*.jpg"
+    static-path-pattern: /**/*.jpg
+#thymelea模板配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
   resources:
-    static-locations: "classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/,classpath:/public/,file:${web.upload-path}"
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/,classpath:/public/,file:${web.upload-path}
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**

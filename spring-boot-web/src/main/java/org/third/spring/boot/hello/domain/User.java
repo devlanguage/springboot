@@ -1,33 +1,49 @@
 package org.third.spring.boot.hello.domain;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author zh
  * @ClassName cn.saytime.bean.User
  * @Description
  */
+@XmlRootElement
 public class User {
 
-	private int id;
-	private String username;
+	private Long id;
+	private String name;
 	private int age;
 	private Date ctm;
+	AtomicLong randomer = new AtomicLong(1000);
 
-	public int getId() {
+	public User() {
+		id = randomer.getAndIncrement();
+	}
+
+	public User(String name, int age) {
+		id = randomer.getAndIncrement();
+
+		this.name = name;
+		this.age = age;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getAge() {

@@ -1,6 +1,5 @@
-package org.third;
+package org.third.spring.boot.hello.web;
 
-import org.bouncycastle.jsse.provider.BouncyCastleJsseProvider;
 
 public class CacheControlFilter {
 	public static void main(String[] args) {
@@ -10,8 +9,6 @@ public class CacheControlFilter {
 				System.out.println("  "+s.getType() + "_" + s.getAlgorithm());
 			});
 			
-			BouncyCastleJsseProvider bcJsse  = new BouncyCastleJsseProvider();
-//			bcJsse.put(key, value)
 
 		}
 	}

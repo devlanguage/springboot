@@ -87,7 +87,7 @@ public class HomeController {
         mode.addObject("name", "wagnwu");
     }
 
-    @RequestMapping(value = "/${fileName}.tar.gz", method = RequestMethod.GET)
+    @RequestMapping(value = "/{fileName}.tar.gz", method = RequestMethod.GET)
     public void testFileDownload(String fileName, HttpServletResponse resp) throws IOException {
         System.out.println("fileName:" + fileName);
         File file = new File("C:/test.txt");
