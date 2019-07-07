@@ -1,0 +1,19 @@
+{
+    "sites": [
+        {
+            "name": "runoob",
+            "url": "www.runoob.com",
+            "country": "CN"
+        },
+        {
+            "name": "Google",
+            "url": "www.google.com",
+            "country": "USA"
+        },
+        {
+            "name": "Facebook",
+            "url": "www.facebook.com",
+            "country": "USA"
+        }
+    ]
+}

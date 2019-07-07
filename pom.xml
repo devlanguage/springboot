@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.third.spring</groupId>
   <artifactId>spring-parent</artifactId>
@@ -35,6 +36,7 @@
     <hamcrest-all.version>1.3</hamcrest-all.version>
     <hamcrest.version>1.3</hamcrest.version>
     <httpasyncclient.version>4.1.2</httpasyncclient.version>
+    <springfox.swagger.version>2.6.1</springfox.swagger.version>
     <httpclient.version>4.5.2</httpclient.version>
     <httpcore.version>4.4.5</httpcore.version>
     <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
@@ -53,6 +55,7 @@
     <junit-jupiter.version>5.2.0</junit-jupiter.version>
     <junit-platform.version>1.2.0</junit-platform.version>
     <junit.version>4.12</junit.version>
+    <jacoco.version>0.7.9</jacoco.version>
     <log4j.version>1.2.17</log4j.version>
     <logback.version>1.1.7</logback.version>
     <lombok.version>1.16.12</lombok.version>
@@ -84,11 +87,117 @@
     <spring.security.version>4.2.7.RELEASE</spring.security.version>
     <spring.vault.version>2.0.1.RELEASE</spring.vault.version>
     <spring.version>4.3.23.RELEASE</spring.version>
+    <thymeleaf.version>2.1.6.RELEASE</thymeleaf.version>
+    <thymeleaf-extras-springsecurity4.version>2.1.3.RELEASE</thymeleaf-extras-springsecurity4.version>
+    <thymeleaf-extras-conditionalcomments.version>2.1.2.RELEASE</thymeleaf-extras-conditionalcomments.version>
+    <thymeleaf-layout-dialect.version>1.4.0</thymeleaf-layout-dialect.version>
+    <thymeleaf-extras-data-attribute.version>1.3</thymeleaf-extras-data-attribute.version>
+    <thymeleaf-extras-java8time.version>2.1.0.RELEASE</thymeleaf-extras-java8time.version>
+    <tomcat.version>8.5.39</tomcat.version>
     <sshd-cli.vesion>2.0.0</sshd-cli.vesion>
-    <tomcat.version>8.5.37</tomcat.version>
   </properties>
   <dependencyManagement>
     <dependencies>
+      <!-- Spring Boot -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-autoconfigure</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <version>${spring.boot.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web-services</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nz.net.ultraq.thymeleaf</groupId>
+        <artifactId>thymeleaf-layout-dialect</artifactId>
+        <version>${thymeleaf-layout-dialect.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf</artifactId>
+        <version>${thymeleaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf-spring4</artifactId>
+        <version>${thymeleaf.version}</version>
+      </dependency>
+
+
+      <!-- Tomcat -->
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-jasper</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-websocket</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+        <version>${jstl.version}</version>
+      </dependency>
+
+      <!-- swagger -->
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${springfox.swagger.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${springfox.swagger.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.fasterxml.jackson.module</groupId>
         <artifactId>jackson-module-jaxb-annotations</artifactId>
@@ -132,7 +241,7 @@
       <dependency>
         <groupId>com.esotericsoftware.yamlbeans</groupId>
         <artifactId>yamlbeans</artifactId>
-        <version>1.09</version>
+        <version>1.13</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -192,8 +301,25 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
   <modules>
     <module>spring-boot-site</module>
     <module>spring-boot-bookstore</module>
+    <module>spring-boot-chart</module>
+    <module>spring-web-chart</module>
   </modules>
 </project>

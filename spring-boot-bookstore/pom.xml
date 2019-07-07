@@ -4,10 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
   <!-- <parent> <groupId>org.third.spring</groupId> <artifactId>spring-parent</artifactId> <version>0.0.1</version> </parent> -->
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.0.0.RELEASE</version>
-    <relativePath />
+    <groupId>org.third.spring</groupId>
+    <artifactId>spring-parent</artifactId>
+    <version>0.0.1</version>
   </parent>
   <artifactId>spring-boot-bookstore</artifactId>
   <version>0.0.1</version>
@@ -18,7 +17,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>

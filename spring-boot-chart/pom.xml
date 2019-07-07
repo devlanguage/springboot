@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.third.spring</groupId>
+    <artifactId>spring-parent</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  <artifactId>spring-boot-chart</artifactId>
+  <packaging>war</packaging>
+  <name>spring-boot-chart Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring.boot.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!--<configuration> <skip>true</skip> </configuration> -->
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- <plugin> <groupId>pl.project13.maven</groupId> <artifactId>git-commit-id-plugin</artifactId> <version>${git-commit.plugin.version}</version> 
+        <executions> <execution> <goals> <goal>revision</goal> </goals> </execution> </executions> </plugin> <plugin> <groupId>org.codehaus.mojo</groupId> 
+        <artifactId>build-helper-maven-plugin</artifactId> <version>${mojo.buildhelper.plugin.version}</version> <executions> <execution> <id>parse-version></id> 
+        <goals> <goal>parse-version</goal> </goals> </execution> </executions> </plugin> -->
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>${project.name}</warName>
+          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+          <!-- <overlays> <overlay> <groupId>com.hp.cloud.identity</groupId> <artifactId>idm-ui</artifactId> <type>war</type> </overlay> </overlays> -->
+          <archive>
+            <manifestEntries>
+              <Specification-Title>${project.name}</Specification-Title>
+              <Specification-MajorVersion>${parsedVersion.majorVersion}</Specification-MajorVersion>
+              <Specification-MinorVersion>${parsedVersion.minorVersion}</Specification-MinorVersion>
+              <Specification-PatchVersion>${parsedVersion.incrementalVersion}</Specification-PatchVersion>
+              <Specification-Label>${parsedVersion.qualifier}</Specification-Label>
+              <Implementation-BuildNumber>${ci.buildnumber}</Implementation-BuildNumber>
+              <Implementation-GitCommitHash>${git.commit.id.abbrev}</Implementation-GitCommitHash>
+              <Implementation-GitDescribe>${git.commit.id.describe}</Implementation-GitDescribe>
+              <Implementation-GitTags>${git.tags}</Implementation-GitTags>
+              <Implementation-Timestamp>${maven.build.timestamp}</Implementation-Timestamp>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+    <finalName>spring-boot-chart</finalName>
+
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+    </dependency>
+
+    <!-- JSTL for JSP spring boot搭建web项目，跳转到jsp一定要添加下面的jar包，否则出现跳转的时候，变成下载的功能，保存该页面 -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+
+    <!-- Need this to compile JSP -->
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-jasper</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Thymeleaf -->
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>nz.net.ultraq.thymeleaf</groupId>
+      <artifactId>thymeleaf-layout-dialect</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+  </dependencies>
+</project>
