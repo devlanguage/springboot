@@ -56,7 +56,7 @@ public class UserController {
 
 	/**
 	 * 获取 form 表单页面
-	 * 
+	 *   http://h0.feitian.com:18080/test1/users/form
 	 * @return
 	 */
 	@GetMapping("/form")
