@@ -12,7 +12,7 @@
   <name>spring-web-chart Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
-    <spring.version>5.0.10.RELEASE</spring.version>
+    <spring.version>5.2.3.RELEASE</spring.version>
   </properties>
 
   <build>
