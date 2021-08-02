@@ -94,7 +94,7 @@
     <thymeleaf-extras-data-attribute.version>1.3</thymeleaf-extras-data-attribute.version>
     <thymeleaf-extras-java8time.version>2.1.0.RELEASE</thymeleaf-extras-java8time.version>
     <tomcat.version>8.5.39</tomcat.version>
-    <sshd-cli.vesion>2.0.0</sshd-cli.vesion>
+    <sshd-cli.vesion>2.7.0</sshd-cli.vesion>
   </properties>
   <dependencyManagement>
     <dependencies>
