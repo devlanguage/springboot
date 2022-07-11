@@ -77,7 +77,7 @@
     <powermock.version>1.7.4</powermock.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.boot.version>1.5.20.RELEASE</spring.boot.version>
+    <spring.boot.version>2.2.11.RELEASE</spring.boot.version>
     <spring-boot.version>1.5.20.RELEASE</spring-boot.version>
     <spring.kafka.version>2.1.7.RELEASE</spring.kafka.version>
     <spring.ldap.version>2.3.1.RELEASE</spring.ldap.version>
